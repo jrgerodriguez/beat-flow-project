@@ -1,0 +1,22 @@
+body {
+    background-color: #fff;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+@media (min-width: 1400px) {
+    body {
+        background-color: #eee;
+    }
+}
+
+main {
+  background-color: #fff;
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 20px;
+}
+
+h1 {
+    margin: 0;
+}
