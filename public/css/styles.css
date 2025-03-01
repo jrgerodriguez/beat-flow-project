@@ -413,6 +413,11 @@ template {
 
 .iniciar-sesion {
   font-size: 14px;
+  background-color: #006994;
+  color: #fff;
+}
+.iniciar-sesion:hover {
+  background-color: rgb(70, 130, 180);
 }
 
 .hero {

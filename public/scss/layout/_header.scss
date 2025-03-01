@@ -47,4 +47,10 @@
 
 .iniciar-sesion {
     font-size: 14px;
+    background-color: #006994;
+    color: #fff;
+
+    &:hover {
+        background-color: rgba(70, 130, 180);
+    }
 }
