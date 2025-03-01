@@ -1,0 +1,14 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.contenedor-proximos-titulo {
+    margin: 20px 0;
+
+    .proximos-titulo {
+        margin: 0;
+        font-size: 27px;
+        color: #006994;
+    }
+}
+
+

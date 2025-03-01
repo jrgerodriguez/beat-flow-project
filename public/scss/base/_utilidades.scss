@@ -1,0 +1,28 @@
+@import 'variables';
+
+.texto_light {
+    font-weight: $delgada;
+}
+
+.texto_bold {
+    font-weight: $bold;
+}
+
+.boton-gris-sin-border {
+    background-color: rgba(128, 128, 128, 0.3);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: rgba(128, 128, 128, 0.5);
+    }
+}
+
+.contenedor-centrar-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
