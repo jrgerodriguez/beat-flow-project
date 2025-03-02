@@ -431,6 +431,17 @@ template {
   margin-top: 20px;
 }
 
+.hero img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+@media (max-width: 768px) {
+  .hero img {
+    height: 50vh;
+  }
+}
+
 .footer {
   background-color: #000;
   color: #fff;
