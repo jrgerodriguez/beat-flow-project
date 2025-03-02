@@ -5,7 +5,7 @@ const baseController = {}
 
 baseController.buildProximos = async function(req, res) {
     const proximosEventos = await utilidades.getProximos()
-    res.render("index", {titulo: "Home", proximosEventos})
+    res.render("index", {titulo: "Beatflow", proximosEventos})
 }
 
 module.exports = baseController
