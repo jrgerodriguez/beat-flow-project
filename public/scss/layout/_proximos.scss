@@ -1,7 +1,7 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-.contenedor-proximos-titulo {
+.contenedor-titulo {
     margin: 20px 0;
 
     .proximos-titulo {
@@ -11,4 +11,26 @@
     }
 }
 
+.contenedor-eventos {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.evento {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    img {
+        max-width: 300px;
+        height: auto;
+    }
+
+    a {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+    }
+}
 
