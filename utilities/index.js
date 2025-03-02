@@ -9,7 +9,7 @@ Util.getProximos = async function(req, res, next) {
     data.rows.forEach((row) => {
      list += `
     <div class="evento">
-    <a><img src="${row.evento_image}" alt="Flyer del evento"></a>
+    <a href="/evento/${row.evento_id}"><img src="${row.evento_image}" alt="Flyer del evento"></a>
     <p>${row.evento_nombre}</p>
     <p class="texto_gris">${row.evento_fecha}</p>    
     <p class="texto_gris">${row.evento_lugar}, ${row.evento_ciudad}</p>

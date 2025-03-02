@@ -7,6 +7,7 @@ require('dotenv').config();
 const static = require("./routes/static")
 const expressLayouts = require("express-ejs-layouts")
 const baseController = require("./controllers/baseController")
+const eventoRoute = require("./routes/evento-route")
 
 /* ***********************
  * View Engine and Templates (ejs)
@@ -21,6 +22,7 @@ app.set("layout", "./layouts/layout")
  *************************/
 app.use(static)
 
+app.use("/evento", eventoRoute)
 app.get('/', baseController.buildProximos);
 
 
