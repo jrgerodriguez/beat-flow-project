@@ -33,6 +33,7 @@ p {
 a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 img,
@@ -488,11 +489,6 @@ template {
 .evento img {
   max-width: 300px;
   height: auto;
-}
-.evento a {
-  display: inline-block;
-  width: fit-content;
-  max-width: 100%;
 }
 
 /*# sourceMappingURL=styles.css.map */

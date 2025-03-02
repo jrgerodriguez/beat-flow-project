@@ -9,12 +9,12 @@ Util.getProximos = async function(req, res, next) {
     data.rows.forEach((row) => {
      list += `
     <div class="evento">
-    <img src="${row.evento_image}" alt="Flyer del evento">
+    <a><img src="${row.evento_image}" alt="Flyer del evento"></a>
     <p>${row.evento_nombre}</p>
     <p class="texto_gris">${row.evento_fecha}</p>    
     <p class="texto_gris">${row.evento_lugar}, ${row.evento_ciudad}</p>
-    <a href="${row.evento_tickets}" class="boton-gris-sin-border iniciar-sesion" target="blank">Tickets</a>    
     </div>`
+    // <a href="${row.evento_tickets}" class="boton-gris-sin-border iniciar-sesion" target="blank">Tickets</a>    
     })
     return list;    
 }
