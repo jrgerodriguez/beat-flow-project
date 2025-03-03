@@ -54,10 +54,15 @@ Util.buildDetallesPorEvento = async function(data) {
 
                 <a href="${data.evento_tickets}" class="boton-gris-sin-border iniciar-sesion" target="blank">Tickets</a>
 
+                <div class="casilla-informacion">
+                <p class="texto_gris detalle-titulo creado-por">Autor: ${data.usuario_nombre} ${data.usuario_apellido}</p>
+                </div>
+
             </div>
         </div>`
         
     }
+    console.log(data)
     return details;
 }
 

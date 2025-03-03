@@ -549,6 +549,9 @@ template {
   overflow-wrap: break-word;
   white-space: normal;
 }
+.detalles-grid .detalles-grid-informacion .casilla-informacion .creado-por {
+  font-size: 12px;
+}
 .detalles-grid .detalles-grid-informacion .casilla-informacion .detalle-titulo {
   margin-bottom: 7px;
 }

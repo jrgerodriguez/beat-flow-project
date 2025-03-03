@@ -15,7 +15,7 @@ async function getProximosEventos() {
 async function getEventoDetalles(evento_id) {
     try {
         const data = await pool.query(
-          `SELECT *, TO_CHAR(evento_fecha, 'TMMonth FMDD') AS evento_fecha_formateada, TO_CHAR(evento_hora, 'FMHH12 AM') AS evento_hora_formateada FROM public.evento WHERE evento_id = $1`,
+          `SELECT e.*, TO_CHAR(e.evento_fecha, 'TMMonth FMDD') AS evento_fecha_formateada, TO_CHAR(e.evento_hora, 'FMHH12 AM') AS evento_hora_formateada, u.usuario_nombre, u.usuario_apellido FROM public.evento e JOIN public.usuario u ON e.usuario_id = u.usuario_id WHERE e.evento_id = $1`,
           [evento_id]
         );
         return data.rows[0];
