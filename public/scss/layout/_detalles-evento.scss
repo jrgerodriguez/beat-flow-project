@@ -1,0 +1,63 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.contenedor-nombre-evento {
+  background-color: #005c99;
+  padding: 35px;
+  margin: 25px -20px;
+
+  .nombre-evento {
+    margin: 0;
+    color: #fff;
+    font-size: 25px;
+  }
+}
+
+.detalles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 25px;
+  justify-content: center;
+  align-items: start;
+
+  @include telefono {
+    flex-direction: row;
+  }
+
+  .detalles-grid-imagen-contenedor {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+  }
+
+  .detalles-grid-informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    a {
+      display: inline-block;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .casilla-informacion {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      width: 300px; 
+      max-width: 100%; 
+
+      word-wrap: break-word; 
+      overflow-wrap: break-word; 
+
+      white-space: normal;
+
+      .detalle-titulo {
+        margin-bottom: 7px;
+      }
+    }
+  }
+}

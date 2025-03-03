@@ -3,10 +3,25 @@
 const pool = require("../database/")
 
 /* ***************************
- *  Obtener todos los proximos eventos registrados
+ * Obtener todos los proximos eventos registrados
  * ************************** */
 async function getProximosEventos() {
     return await pool.query("SELECT *, TO_CHAR(evento_fecha, 'TMMonth FMDD') AS evento_fecha_formateada FROM public.evento ORDER BY evento_fecha ASC")
 }
 
-module.exports = {getProximosEventos}
+/* ***************************
+ * Obtener los detalles de cada evento por medio del evento_id
+ * ************************** */
+async function getEventoDetalles(evento_id) {
+    try {
+        const data = await pool.query(
+          `SELECT *, TO_CHAR(evento_fecha, 'TMMonth FMDD') AS evento_fecha_formateada, TO_CHAR(evento_hora, 'FMHH12 AM') AS evento_hora_formateada FROM public.evento WHERE evento_id = $1`,
+          [evento_id]
+        );
+        return data.rows[0];
+      } catch (error) {
+        console.error("error: " + error);
+      }
+}
+
+module.exports = {getProximosEventos, getEventoDetalles}
