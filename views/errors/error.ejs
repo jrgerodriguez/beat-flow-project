@@ -1,0 +1,16 @@
+<% if (titulo) { %> 
+    <% } else { res.redirect('/') } %>
+
+<div class="contenedor-nombre-evento">
+  <h1 class="nombre-evento"><%- message %></h1>
+</div>
+
+<div class="contenedor-error">
+  <p>Parece que el dj presionó CUE y detuvo la música</p>
+
+  <a href="/" class="boton-gris-sin-border iniciar-sesion">Volver a Inicio</a>
+
+  <div class="detalles-grid-imagen-contenedor">
+    <img src="/images/dj.jpg" alt="Image" />
+  </div>
+</div>

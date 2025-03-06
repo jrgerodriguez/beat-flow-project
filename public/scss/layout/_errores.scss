@@ -1,0 +1,21 @@
+@import 'detalles-evento';
+
+.contenedor-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 25px;
+    gap: 20px;
+
+    p {
+        text-align: center;
+        font-size: 25px;
+    }
+}
+
+.detalles-grid-imagen-contenedor {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+}

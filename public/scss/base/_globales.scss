@@ -1,10 +1,15 @@
 @import 'variables';
 
+* {
+    box-sizing: border-box; 
+  }
+
 body {
     background-color: #fff;
     margin-top: 0;
     margin-bottom: 0;
     font-family: $fuente_principal;
+    height: 100vh;
 }
 
 @media (min-width: 1400px) {
@@ -13,11 +18,22 @@ body {
     }
 }
 
-.contenedor {
+.contenedor-page {
   background-color: #fff;
   margin: 0 auto;
   max-width: 1600px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
 }
 
 h1,
@@ -36,3 +52,11 @@ picture {
     width: 100%;
     display: block;
 }
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #d3d3d3;
+    margin: 20px 0;
+  }
+  
