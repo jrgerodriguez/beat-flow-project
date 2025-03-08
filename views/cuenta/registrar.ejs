@@ -1,0 +1,29 @@
+<div class="contenedor-formulario">
+    <div class="formulario">
+        <h2>Crear Nueva Cuenta</h2>
+        <form class="" id="loginForm" action="/account/login" method="post">
+
+            <div>
+                    <input type="text" id="usuario_nombre" name="usuario_nombre" required placeholder="Nombre">
+            </div>
+
+            <div>
+                <input type="text" id="usuario_apellido" name="usuario_apellido" required placeholder="Apellido">
+            </div>
+
+            <div>
+            <input type="email" id="email" name="usuario_email" required placeholder="Correo Electrónico: correo@ejemplo.com">
+            </div>
+        
+            <div>
+                    <input type="password" id="password" name="usuario_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="Contraseña">
+            </div>
+
+            <p class="requisito">La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.</p>
+
+            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Registrarse</button>
+      
+        </form>
+    </div>
+
+    

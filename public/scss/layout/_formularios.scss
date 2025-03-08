@@ -30,7 +30,8 @@
     display: inline-block;
     width: 100%;
     text-align: center;
-    padding: 25px;
+    padding: 20px;
+    border: none;
   }
 
   p {
@@ -61,4 +62,15 @@ input::placeholder {
 
 svg {
   color: #666;
+}
+
+.requisito {
+  margin-bottom: 15px !important;
+  font-size: 0.9rem;
+  color: #ff6b6b;
+  background: #fff3f3;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #ff4d4d;
+  text-align: left;
 }
