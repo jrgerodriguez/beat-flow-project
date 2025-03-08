@@ -417,7 +417,7 @@ template {
   padding: 20px 35px;
   font-size: 17px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  animation: slideIn 0.5s ease-in-out, slideOut 0.5s ease-in-out 2.5s forwards;
+  animation: slideIn 0.5s ease-in-out, slideOut 0.5s ease-in-out 4s forwards;
 }
 
 .notice {
@@ -792,7 +792,7 @@ hr {
 .formulario p {
   text-align: center;
   font-size: 14px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .formulario p .link-registrarse {
   text-decoration: underline;
@@ -830,6 +830,14 @@ svg {
 
 .ver-contrasena {
   cursor: pointer;
+}
+
+.formulario div:has(input:focus:invalid) {
+  box-shadow: 0 0 2px rgba(255, 0, 0, 0.6);
+}
+
+.formulario div:has(input:focus:valid) {
+  box-shadow: 0 0 2px rgba(0, 200, 100, 0.6);
 }
 
 /*# sourceMappingURL=styles.css.map */

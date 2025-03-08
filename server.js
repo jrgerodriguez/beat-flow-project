@@ -12,6 +12,7 @@ const accountRoute = require("./routes/account-route")
 const utilidades = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
+const bodyParser = require("body-parser") //Para leer lo que venga en el body del post
 
 /* ***********************
  * Middleware
@@ -33,6 +34,11 @@ app.use(function(req, res, next) {
   res.locals.messages = require('express-messages')(req, res)
   next() //Ultimately, this allows messages to be set, then pass on to the next process. Eventually, when a view is built, the message can be displayed in it.
 })
+
+
+//Para leer lo que venga en el body del post
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 /* ***********************
  * View Engine and Templates (ejs)

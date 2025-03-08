@@ -37,7 +37,7 @@
   p {
     text-align: center;
     font-size: 14px;
-    margin-top: 20px;
+    margin-top: 15px;
 
     .link-registrarse {
         text-decoration: underline;
@@ -78,3 +78,11 @@ svg {
 .ver-contrasena {
   cursor: pointer;
 }
+
+.formulario div:has(input:focus:invalid) {
+  box-shadow: 0 0 2px rgba(255, 0, 0, 0.6); 
+}
+.formulario div:has(input:focus:valid) {
+  box-shadow: 0 0 2px rgba(0, 200, 100, 0.6);
+}
+

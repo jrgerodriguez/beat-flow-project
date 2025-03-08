@@ -1,3 +1,11 @@
+<% if (messages) { %>
+    <div class="notice-container">
+      <%- messages() %>
+    </div>
+<% } %>
+  
+
+
 <div class="contenedor-formulario">
     <div class="formulario">
         <form class="" id="loginForm" action="/account/login" method="post">
