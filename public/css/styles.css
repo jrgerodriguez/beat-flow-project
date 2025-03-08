@@ -828,4 +828,8 @@ svg {
   text-align: left;
 }
 
+.ver-contrasena {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=styles.css.map */
