@@ -23,3 +23,15 @@ showPasswordBtn.addEventListener("click", () => {
 }
 
 showPassword();
+
+
+const closeErrorMessage = () => {
+  const closeBtnList = document.querySelectorAll(".closeBtn")
+  closeBtnList.forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.closest('li').style.display = 'none'
+    })
+  })
+  }
+
+closeErrorMessage();

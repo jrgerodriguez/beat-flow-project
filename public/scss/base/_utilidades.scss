@@ -45,6 +45,8 @@
   font-size: 17px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   animation: slideIn 0.5s ease-in-out, slideOut 0.5s ease-in-out 4s forwards;
+
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .notice {

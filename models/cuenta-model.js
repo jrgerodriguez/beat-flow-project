@@ -10,4 +10,16 @@ async function registrarCuenta(usuario_nombre, usuario_apellido, usuario_email, 
     }
   }
 
-module.exports = {registrarCuenta}
+//Esta funciona verifica si el email existe antes de crear una cuenta
+ 
+async function checkExistingEmail(usuario_email) {
+  try {
+    const sql = "SELECT * FROM usuario WHERE usuario_email = $1"
+    const query = await pool.query(sql, [usuario_email])
+    return query.rowCount
+  } catch (error) {
+    return error.message  
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail}

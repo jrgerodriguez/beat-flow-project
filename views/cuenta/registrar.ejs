@@ -1,18 +1,34 @@
+<% if (errores) { %>
+    <ul class="error-container">
+        <% errores.array().forEach(error => { %>
+            <% if (error.msg !== "Invalid value") { %>
+                <li class="error-item">
+                    <span><%= error.msg %></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-x-lg closeBtn" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </li>
+            <% } %>
+        <% }) %>
+    </ul>
+<% } %>
+
+
 <div class="contenedor-formulario">
     <div class="formulario">
         <h2>Crear Nueva Cuenta</h2>
         <form class="" id="loginForm" action="/cuenta/registrar" method="post">
 
             <div>
-                <input type="text" id="usuario_nombre" name="usuario_nombre" required placeholder="Nombre">
+                <input type="text" id="usuario_nombre" name="usuario_nombre" required placeholder="Nombre" value="<%= locals.usuario_nombre%>">
             </div>
 
             <div>
-                <input type="text" id="usuario_apellido" name="usuario_apellido" required placeholder="Apellido">
+                <input type="text" id="usuario_apellido" name="usuario_apellido" required placeholder="Apellido" value="<%= locals.usuario_apellido%>">
             </div>
 
             <div>
-            <input type="email" id="email" name="usuario_email" required placeholder="Correo Electrónico: correo@ejemplo.com">
+            <input type="email" id="email" name="usuario_email" required placeholder="Correo Electrónico: correo@ejemplo.com" value="<%= locals.usuario_email%>">
             </div>
         
             <div>
