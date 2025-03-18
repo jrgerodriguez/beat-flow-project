@@ -888,6 +888,7 @@ svg {
 /** Media Queries **/
 .dashboard-titulo {
   margin-top: 35px;
+  margin-bottom: 0;
 }
 
 .dashboard-layout {
