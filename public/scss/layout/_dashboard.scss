@@ -1,0 +1,55 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+
+.dashboard-layout {
+    display: flex;
+    flex: 1;
+    margin-top: 0;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+}
+
+.dashboard-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 220px;
+    align-items: center;
+}
+
+.dashboard-opciones a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 5px 0;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.dashboard-opciones a:hover {
+    transform: scale(1.05);
+}
+
+.dashboard-opciones svg {
+    color: #000; 
+}
+
+.dashboard-opciones span {
+    font-size: 16px;
+}
+
+@include telefono {
+    .dashboard-layout,
+    .dashboard-opciones
+     {
+        align-items: start;
+    }
+
+    .dashboard-layout {
+        margin-top: 50px;
+    }
+}

@@ -16,4 +16,5 @@ router.get("/registrar", utilidades.handleErrors(cuentaController.buildRegisterV
 // Registrar una nueva cuenta
 router.post("/registrar", accValidation.registrationNewAccountRules(), accValidation.checkRegistrationNewAccountRules, utilidades.handleErrors(cuentaController.registerAccount))
 
+
 module.exports = router

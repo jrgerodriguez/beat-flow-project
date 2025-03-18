@@ -13,6 +13,7 @@ const utilidades = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser") //Para leer lo que venga en el body del post
+const cuentaController = require("./controllers/cuentaController")
 
 /* ***********************
  * Middleware
@@ -56,6 +57,9 @@ app.use(static)
 app.use("/evento", eventoRoute)
 app.use("/cuenta", accountRoute)
 app.get('/', utilidades.handleErrors(baseController.buildProximos));
+
+// Ver el dashboard
+app.get("/dashboard", utilidades.handleErrors(cuentaController.buildDashboard))
 
 
 // Middleware para RUTAS NO ENCONTRADAS, si la solicitud llega a este punto significa que ninguna otra ruta la ha manejado, entonces llama a next() pasando un objeto con status y message, este objeto es reconocido como un error. Express detecta que next(err) ha recibido argumentos y por eso es considerado un error, Cuando next(err) recibe cualquier valor que no sea undefined o null, Express: Se salta todos los middleware normales (que tienen req, res, next). Va directamente a un middleware que tenga cuatro parámetros (err, req, res, next)

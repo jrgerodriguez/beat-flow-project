@@ -41,9 +41,16 @@ async function registerAccount(req, res) {
     }
 }
 
+//Esta funcion procesa el login
 async function processLogin(req, res) {
     res.status(200).send('Bienvenido')
 }
 
+//Esta funcion nos lleva hacia la vista del dashboard o panel de control de la cuenta
+async function buildDashboard(req, res) {
+    res.render("./cuenta/dashboard", {
+        titulo: 'Dashboard',
+    })
+}
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin}
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildDashboard}
