@@ -8,53 +8,45 @@
 }
 
 .dashboard-layout {
-    display: flex;
     flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .dashboard-opciones {
     display: flex;
     flex-direction: column;
-    gap: 15px 0;
-    width: 220px;
-    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
 }
 
 .dashboard-opciones a {
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    padding: 5px 0;
-    border-radius: 8px;
+    gap: 8px;
+    color: #000;
     font-weight: bold;
+    border: 1px solid #f5f5f5;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    
+
+    &:hover {
+        transform: scale(1.05);
+    }
 }
 
-.dashboard-opciones a:hover {
-    transform: scale(1.05);
-}
-
-.dashboard-opciones svg {
-    color: #000; 
-}
-
-.dashboard-opciones span {
-    font-size: 15px;
+svg {
+    color: #000;
 }
 
 @include telefono {
-    .dashboard-layout,
-    .dashboard-opciones
-     {
-        align-items: start;
-    }
-
-    .dashboard-layout {
-        padding: 20px;
-        justify-content: start;
+    .dashboard-opciones {
+        max-width: 220px;
     }
 }
