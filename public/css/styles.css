@@ -886,10 +886,13 @@ svg {
 }
 
 /** Media Queries **/
+.dashboard-titulo {
+  margin-top: 35px;
+}
+
 .dashboard-layout {
   display: flex;
   flex: 1;
-  margin-top: 0;
   flex-direction: column;
   padding: 20px;
   align-items: center;
@@ -898,7 +901,7 @@ svg {
 .dashboard-opciones {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
   width: 220px;
   align-items: center;
 }
@@ -930,9 +933,6 @@ svg {
   .dashboard-layout,
   .dashboard-opciones {
     align-items: start;
-  }
-  .dashboard-layout {
-    margin-top: 50px;
   }
 }
 
