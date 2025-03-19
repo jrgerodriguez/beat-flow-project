@@ -22,4 +22,22 @@ async function checkExistingEmail(usuario_email) {
   }
 }
 
-module.exports = {registrarCuenta, checkExistingEmail}
+//Esta funciona verifica si el email existe para poder iniciar sesion
+async function getUserByEmail(usuario_email) {
+  try {
+    const result = await pool.query('SELECT * FROM usuario WHERE usuario_email = $1', [usuario_email])
+    return result.rows[0] //Devuelve un objeto con un arreglo de resultados en el que cada resultado es objeto, ejemplo: 
+    /* 
+      {
+        rowCount: 1, 
+        rows: [
+          { usuario_id: 1, usuario_nombre: "Jorge", usuario_email: "jorge@example.com" }
+        ]
+      }
+    */
+  } catch (error) {
+    
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail}

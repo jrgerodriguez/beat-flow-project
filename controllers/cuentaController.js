@@ -1,6 +1,8 @@
 const { hash } = require("bcryptjs");
 const accModel = require("../models/cuenta-model")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 //Esta funcion renderiza el view para hacer login
 async function buildLoginView(req, res) {
@@ -23,7 +25,7 @@ async function registerAccount(req, res) {
     try {
         hashedPassword = await bcrypt.hashSync(usuario_password, 10)
     } catch(error) {
-        req.flash("warning", "Hubo un error al procesar el registro")
+        req.flash("error", "Hubo un error al procesar el registro")
         res.status(500).render("./cuenta/registrar", {
         titulo: 'Registro',
         errores: null
@@ -37,20 +39,45 @@ async function registerAccount(req, res) {
     res.status(201).render("./cuenta/login", {titulo: 'Iniciar Sesión', errores:null})
     } else {
         req.flash("warning", "Lo sentimos, el registro falló.");
-        res.status(501).render("./cuenta/registrar", {titulo: 'Registro'});
+        res.status(501).render("./cuenta/registrar", {titulo: 'Registro', errores:null});
     }
 }
 
 //Esta funcion procesa el login
 async function processLogin(req, res) {
-    res.status(200).send('Bienvenido')
+    const {usuario_email, usuario_password} = req.body
+    const userData = await accModel.getUserByEmail(usuario_email)
+
+    if(!userData) {
+        req.flash("notice", "Usuario no encontrado")
+        res.status(400).render("./cuenta/login", {
+            titulo: 'Iniciar Sesión', 
+            errores:null
+        }) 
+        return
+    }
+    try {
+        if (await bcrypt.compare(usuario_password, userData.usuario_password)) {
+            delete userData.usuario_password
+            const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+            if(process.env.NODE_ENV === 'development') {
+                res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+            } else {
+                res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+            }
+            return res.redirect("/dashboard")
+        } else {
+            req.flash("notice", "Contraseña Incorrecta")
+            res.status(400).render("./cuenta/login", {
+                titulo: 'Iniciar Sesión', 
+                errores:null
+            })
+            return
+        }
+
+    } catch (error) {
+        throw new Error('Acceso Denegado')
+    }
 }
 
-//Esta funcion nos lleva hacia la vista del dashboard o panel de control de la cuenta
-async function buildDashboard(req, res) {
-    res.render("./cuenta/dashboard", {
-        titulo: 'Dashboard',
-    })
-}
-
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildDashboard}
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin}

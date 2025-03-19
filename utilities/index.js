@@ -1,30 +1,32 @@
 //Aqui se importan las funciones del modelo y se insertan en codigo html y exporta todas las funciones en un objeto llama Util
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
+const proxModel = require("../models/proximos-model");
+const Util = {};
 
-const proxModel = require("../models/proximos-model")
-const Util = {}
 
 /* ***************************
  *  Obtiene todos los eventos registrados en la base de datos
  * ************************** */
-Util.getProximos = async function(req, res, next) {
-    let data = await proxModel.getProximosEventos()
-    let list = ""
-    data.rows.forEach((row) => {
-     list += `
+Util.getProximos = async function (req, res, next) {
+  let data = await proxModel.getProximosEventos();
+  let list = "";
+  data.rows.forEach((row) => {
+    list += `
     <div class="evento">
     <a href="/evento/${row.evento_id}"><img src="${row.evento_image}" alt="Flyer del evento"></a>
     <p>${row.evento_nombre}</p>
     <p class="texto_gris">${row.evento_fecha_formateada}</p>    
     <p class="texto_gris">${row.evento_lugar}, ${row.evento_ciudad}</p>
-    </div>`    
-    })
-    return list;    
-}
+    </div>`;
+  });
+  return list;
+};
 
-Util.buildDetallesPorEvento = async function(data) {
-    let details = "";
-    if(data) {
-        details += `
+Util.buildDetallesPorEvento = async function (data) {
+  let details = "";
+  if (data) {
+    details += `
         <div class="contenedor-nombre-evento">
             <h1 class="nombre-evento">${data.evento_nombre}</h1>
         </div>
@@ -59,18 +61,58 @@ Util.buildDetallesPorEvento = async function(data) {
                 </div>
 
             </div>
-        </div>`
-        
-    }
-    console.log(data)
-    return details;
-}
+        </div>`;
+  }
+  console.log(data);
+  return details;
+};
 
 /* ****************************************
  * Middleware For Handling Errors
- * Wrap other function in this for 
+ * Wrap other function in this for
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
-module.exports = Util
+/* ****************************************
+ * Middleware to check token validity
+ **************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, userData) {
+        if (err) {
+          req.flash("notice", "Inicia sesión para continuar");
+          res.clearCookie("jwt");
+          return res.redirect("/cuenta/login");
+        }
+        res.locals.userData = userData;
+        res.locals.loggedin = 1;
+        next();
+      }
+    );
+  } else {
+    next();
+  }
+};
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+
+Util.checkLogin = (req, res, next) => {
+  if(res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Inicia sesión para continuar")
+    return res.render("./cuenta/login", {
+      titulo: 'Iniciar Sesión', 
+      errores:null
+    })
+  }
+}
+
+module.exports = Util;
