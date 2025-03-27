@@ -80,4 +80,77 @@ async function processLogin(req, res) {
     }
 }
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin}
+//Esta funcion es para ver el formulario para editar la informacion
+async function buildEditProfileInfoView(req, res) {
+    res.render("./cuenta/editar-perfil", {
+        titulo: 'Editar Perfil',
+        errores: null
+    })
+}
+
+async function processProfileEdit(req, res) {
+    const {usuario_nombre, usuario_apellido, usuario_email, usuario_id} = req.body
+
+    const result = await accModel.processEdit(usuario_nombre, usuario_apellido, usuario_email, usuario_id)
+
+    if(result) {
+        req.flash("notice", "Información Actualizada")
+
+        delete result.usuario_password
+
+        const accessToken = jwt.sign(result, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: 3600 * 1000,
+        });
+
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+
+        res.status(201).render("./cuenta/dashboard", {
+            titulo: 'Dashboard',
+            userData: result
+        });
+    } else {
+        req.flash("warning", "Lo sentimos, el registro falló.")
+        res.status(501).render("./cuenta/editar-perfil", {
+            titulo: 'Editar Perfil',
+            errores: null
+        });
+    }
+}
+
+async function processPasswordEdit(req, res) {
+    const {usuario_password, usuario_id} = req.body;
+
+    let hashedPassword
+
+    try {
+        hashedPassword = await bcrypt.hashSync(usuario_password, 10)
+    } catch (error) {
+        req.flash("error", "Hubo un error al procesar el registro")
+        res.status(500).render("./cuenta/editar-perfil", {
+        titulo: 'Editar Perfil',
+        errores: null
+    })
+    }
+
+    const updatePassword = await accModel.updatePassword(hashedPassword, usuario_id)
+
+    console.log(usuario_id)
+
+    console.log(`************************ ${updatePassword}`)
+
+    if (updatePassword) {
+        req.flash("notice", "Contraseña Actualizada");
+
+        res.status(201).render("./cuenta/dashboard", {
+            titulo: 'Dashboard',
+        });
+    } else {
+        req.flash("warning", "Lo sentimos, la actualización falló.")
+        res.status(501).render("./cuenta/editar-perfil", {
+            titulo: 'Editar Perfil',
+            errores: null
+        });
+    }
+ }
+
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit}

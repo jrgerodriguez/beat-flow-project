@@ -14,23 +14,42 @@
 <% } %>
 
 
-<div class="contenedor-formulario">
+<div class="contenedor-formulario contenedor-formularios-editar">
+
+    <div class="contenedor-btn-volver">
+        <a href="/dashboard" class="btn-volver">Volver</a>
+    </div>
+    
     <div class="formulario">
-        <h2>Crear Nueva Cuenta</h2>
-        <form class="" id="loginForm" action="/cuenta/registrar" method="post">
+        <h2>Editar Perfil</h2>
+        <form class="" id="loginForm" action="/cuenta/editar-perfil" method="post">
 
+            <label for="usuario_nombre">Nombre</label>
             <div>
-                <input type="text" id="usuario_nombre" name="usuario_nombre" required placeholder="Nombre" value="<%= locals.usuario_nombre%>">
+                <input type="text" id="usuario_nombre" name="usuario_nombre" required placeholder="Nombre" value="<%= userData.usuario_nombre%>">
             </div>
 
+            <label for="usuario_apellido">Apellido</label>
             <div>
-                <input type="text" id="usuario_apellido" name="usuario_apellido" required placeholder="Apellido" value="<%= locals.usuario_apellido%>">
+                <input type="text" id="usuario_apellido" name="usuario_apellido" required placeholder="Apellido" value="<%= userData.usuario_apellido%>">
             </div>
 
+            <label for="usuario_email">Email</label>
             <div>
-            <input type="email" id="email" name="usuario_email" required placeholder="Correo Electrónico: correo@ejemplo.com" value="<%= locals.usuario_email%>">
+            <input type="email" id="email" name="usuario_email" required placeholder="Correo Electrónico: correo@ejemplo.com" value="<%= userData.usuario_email%>">
             </div>
-        
+            
+            <input type="hidden" name="usuario_id" value="<%= userData.usuario_id%>">
+
+            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Registrar Cambios</button>
+      
+        </form>
+    </div>
+
+    <div class="formulario margin-top">
+        <h2>Cambiar Contraseña</h2>
+        <form class="" id="loginForm" action="/cuenta/editar-password" method="post">
+
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
                 <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
@@ -47,12 +66,15 @@
 
         <p class="requisito">
             La contraseña debe tener al menos 10 caracteres, una letra mayúscula, un número y un carácter especial.
-          </p>          
+          </p>    
 
-            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Registrarse</button>
+          <input type="hidden" name="usuario_id" value="<%= userData.usuario_id%>">
+
+         <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Registrar Cambios</button>
       
         </form>
     </div>
+
 </div>
 
 <script src="../js/index.js"></script>

@@ -16,5 +16,13 @@ router.get("/registrar", utilidades.handleErrors(cuentaController.buildRegisterV
 // Registrar una nueva cuenta
 router.post("/registrar", accValidation.registrationNewAccountRules(), accValidation.checkRegistrationNewAccountRules, utilidades.handleErrors(cuentaController.registerAccount))
 
+// Permite ver la vista para editar la informacion del perfil
+router.get("/editar-perfil", utilidades.checkLogin, utilidades.handleErrors(cuentaController.buildEditProfileInfoView))
+
+// Edita/Actualiza la informacion
+router.post("/editar-perfil", accValidation.editProfileRules(), accValidation.checkeditProfileRules, utilidades.handleErrors(cuentaController.processProfileEdit))
+
+// Edita/Actualiza la informacion
+router.post("/editar-password", utilidades.handleErrors(cuentaController.processPasswordEdit))
 
 module.exports = router

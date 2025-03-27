@@ -23,7 +23,7 @@ validate.registrationNewAccountRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail()
+      .normalizeEmail({ remove_dots: false }) 
       .withMessage("Ingresa un correo electrónico válido")
       .custom(async (usuario_email) => {
         const emailExiste = await accModel.checkExistingEmail(usuario_email)
@@ -100,6 +100,66 @@ validate.checkLoginRules = async (req, res, next) => {
           usuario_email,
           errores, 
           messages: null
+      })
+      return
+  }
+  next();
+}
+
+/*Se establencen las reglas para actualizar datos de la cuentra*/
+validate.editProfileRules = () => {
+  return [
+    body("usuario_nombre")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa tu nombre"),
+
+    body("usuario_apellido")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa tu apellido"),
+
+    body("usuario_email")
+      .trim()
+      .isEmail()
+      .normalizeEmail({ remove_dots: false }) 
+      .withMessage("Ingresa un correo electrónico válido")
+      .custom(async (usuario_email, {req}) => {
+
+        const cuentaOriginal = await accModel.getAccountById(req.body.usuario_id)
+
+        let emailOriginal;
+
+        if (cuentaOriginal) {
+            emailOriginal = cuentaOriginal.usuario_email;
+        } else {
+            emailOriginal = null;
+        }
+
+        if (usuario_email !== emailOriginal && await accModel.checkExistingEmail(usuario_email)) {
+          throw new Error("Correo electrónico ya existe")
+        }
+
+      })
+  ];
+};
+
+/*Esta funcion se encarga de verificar que las reglas se cumplan en los datos proporcionados*/
+validate.checkeditProfileRules = async (req, res, next) => {
+  const {usuario_nombre, usuario_apellido, usuario_email, usuario_password} = req.body
+  let errores = []
+  errores = validationResult(req)
+  if(!errores.isEmpty()) {
+      res.render("./cuenta/editar-perfil", {
+          titulo: 'Registro',
+          usuario_nombre,
+          usuario_apellido,
+          usuario_email,
+          errores
       })
       return
   }

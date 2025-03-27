@@ -2,6 +2,7 @@
 async function buildDashboard(req, res) {
     res.render("./cuenta/dashboard", {
         titulo: 'Dashboard',
+        messages: null
     })
 }
 

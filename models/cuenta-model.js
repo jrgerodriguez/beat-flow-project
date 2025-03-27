@@ -40,4 +40,43 @@ async function getUserByEmail(usuario_email) {
   }
 }
 
-module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail}
+//Procesar la actualizacion de la informacion de la base de datos
+async function processEdit(usuario_nombre, usuario_apellido, usuario_email, usuario_id) {
+  try {
+    const result = await pool.query(
+      "UPDATE public.usuario SET usuario_nombre = $1, usuario_apellido = $2, usuario_email = $3 WHERE usuario_id = $4 RETURNING *",
+      [usuario_nombre, usuario_apellido, usuario_email, usuario_id]
+    )
+    return result.rows[0]
+  } catch (error) {
+    console.error("model error':" + error)
+  }
+}
+
+//Obtiene datos del usuario basados en su id 
+async function getAccountById(usuario_id) {
+  try {
+    const result = await pool.query(
+     "SELECT * FROM public.usuario WHERE usuario_id = $1",
+     [usuario_id] 
+    )
+    return result.rows[0]
+  } catch (error) {
+    console.error("model error:" + error)
+  }
+}
+
+//Actualiza la contraseña
+async function updatePassword(usuario_password, usuario_id) {
+  try {
+    const result = await pool.query(
+      "UPDATE public.usuario SET usuario_password = $1 WHERE usuario_id = $2 RETURNING *",
+      [usuario_password, usuario_id])
+    return result.rows[0]
+  } catch (error) {
+    console.error("Error en updatePassword:", error.message);
+    throw error;
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword}

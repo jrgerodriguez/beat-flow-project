@@ -95,6 +95,7 @@ Util.checkJWTToken = (req, res, next) => {
       }
     );
   } else {
+    res.locals.loggedin = 0
     next();
   }
 };
