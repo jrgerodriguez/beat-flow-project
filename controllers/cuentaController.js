@@ -153,4 +153,13 @@ async function processPasswordEdit(req, res) {
     }
  }
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit}
+//Esta funcion es para ver el formulario para crear un nuevo evento
+async function createEventView(req, res) {
+    res.render("./cuenta/crear-evento", {
+        titulo: 'Crear Evento',
+        errores: null
+    })
+}
+
+
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView}

@@ -1,0 +1,77 @@
+<% if (errores) { %>
+    <ul class="error-container">
+        <% errores.array().forEach(error => { %>
+            <% if (error.msg !== "Invalid value") { %>
+                <li class="error-item">
+                    <span><%= error.msg %></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-x-lg closeBtn" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>
+                </li>
+            <% } %>
+        <% }) %>
+    </ul>
+<% } %>
+
+
+<div class="contenedor-formulario contenedor-formularios-editar">
+
+    <div class="contenedor-btn-volver">
+        <a href="/dashboard" class="btn-volver">Volver</a>
+    </div>
+    
+    <div class="formulario">
+        <h2>Detalles del Evento</h2>
+        <form class="" id="loginForm" action="" method="post">
+
+            <label for="evento_nombre">Titulo</label>
+            <div>
+                <input type="text" id="evento_nombre" name="evento_nombre" required>
+            </div>
+
+            <label for="evento_lugar">Lugar</label>
+            <div>
+                <input type="text" id="evento_lugar" name="evento_lugar" required>
+            </div>
+
+            <label for="evento_ciudad">Ciudad</label>
+            <div>
+                <input type="text" id="evento_ciudad" name="evento_ciudad" required>
+            </div>
+
+            <label for="evento_fecha">Fecha</label>
+            <div>
+            <input type="date" id="evento_fecha" name="evento_fecha" required>
+            </div>
+
+            <label for="evento_hora">Hora</label>
+            <div>
+            <input type="time" id="evento_hora" name="evento_hora" required>
+            </div>
+
+            <label for="evento_descripcion">Descripción</label>
+            <div>
+                <textarea id="evento_descripcion" name="evento_descripcion" required placeholder="Describe el evento aquí..."></textarea>
+            </div>
+            
+            <label>Flyer del Evento</label>
+            <div>
+            <input type="file" id="evento_image" name="evento_image" accept="image/*" required>
+            </div>
+
+            <label for="evento_tickets">Link de Tickets</label>
+            <div>
+                <input type="text" id="evento_tickets" name="evento_tickets" required>
+            </div>
+            
+            <input type="hidden" name="usuario_id" value="<%= userData.usuario_id%>">
+
+            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Crear Evento</button>
+      
+        </form>
+    </div>
+
+</div>
+
+<script src="../js/index.js"></script>
+    

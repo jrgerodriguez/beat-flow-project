@@ -922,6 +922,19 @@ svg {
   margin-top: 30px;
 }
 
+textarea {
+  width: 100%;
+  height: 150px;
+  resize: vertical;
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  flex: 1;
+  padding: 5px;
+  font-size: 14px;
+}
+
 /** Media Queries **/
 .dashboard-titulo {
   margin-top: 35px;

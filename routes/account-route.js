@@ -25,4 +25,7 @@ router.post("/editar-perfil", accValidation.editProfileRules(), accValidation.ch
 // Edita/Actualiza la informacion
 router.post("/editar-password", utilidades.handleErrors(cuentaController.processPasswordEdit))
 
+// Crear el view para el formulario de nuevos eventos
+router.get("/crear-evento", utilidades.handleErrors(cuentaController.createEventView))
+
 module.exports = router
