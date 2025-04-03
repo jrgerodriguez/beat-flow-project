@@ -161,5 +161,27 @@ async function createEventView(req, res) {
     })
 }
 
+//Esta funcion registra el nuevo evento
+async function registerNewEvent(req, res) {
+    const {evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_tickets, usuario_id} = req.body
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView}
+    const evento_image = req.file? `/images/flyers/${req.file.filename}` : null;
+
+    const data = await accModel.processNewEventRegister(evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id)
+
+    if(data) {
+        req.flash("notice", "Evento Creado Exitosamente");
+
+        res.status(201).render("./cuenta/dashboard", {
+            titulo: 'Dashboard',
+        });
+    } else {
+        req.flash("warning", "El evento no pudo ser creado.")
+        res.status(501).render("./cuenta/crear-evento", {
+            titulo: 'Crear Evento',
+            errores: null
+        })
+    }
+}
+
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent}

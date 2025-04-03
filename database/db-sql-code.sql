@@ -36,7 +36,7 @@ ALTER TABLE IF EXISTS public.evento
 INSERT INTO public.usuario 
 (usuario_nombre, usuario_apellido, usuario_email, usuario_password) 
 VALUES 
-('Jorge', 'Menjivar', 'jorge.menjivar@email.com', 'Password1*');
+('Jorge', 'Menjivar', 'jorge.menjivar@email.com', 'Anjunadeep1*');
 
 -- Data for table `evento`
 

@@ -79,4 +79,14 @@ async function updatePassword(usuario_password, usuario_id) {
   }
 }
 
-module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword}
+//Esta funcion registra el nuevo evento
+async function processNewEventRegister(evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id){
+  try {
+    const sql = "INSERT INTO evento (evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
+    return await pool.query(sql, [evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword, processNewEventRegister}

@@ -82,7 +82,7 @@ app.use(async (req, res, next) => {
 
 /* ***********************
 * Middleware de Manejo de errores
-Aqui se recibo el error (err) y entonces es renderizado en el view indicado junto con las propiedades del objeto que le fueron asignadas en el middleware de arriba. err tiene que tenes un status y un message
+Aqui se recibe el error (err) y entonces es renderizado en el view indicado junto con las propiedades del objeto que le fueron asignadas en el middleware de arriba. err tiene que tenes un status y un message
 *************************/
 app.use(async (err, req, res, next) => {
     console.error(`Error at: "${req.originalUrl}": ${err.message}`)
