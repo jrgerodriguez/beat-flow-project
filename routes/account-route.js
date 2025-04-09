@@ -29,7 +29,9 @@ router.post("/editar-password", utilidades.checkLogin, utilidades.handleErrors(c
 router.get("/crear-evento", utilidades.checkLogin, utilidades.handleErrors(cuentaController.createEventView))
 
 // Crear el view para el formulario de nuevos eventos
-router.post("/crear-evento", utilidades.checkLogin, utilidades.upload.single('evento_image'), utilidades.handleErrors(cuentaController.registerNewEvent))
+router.post("/crear-evento", utilidades.checkLogin, utilidades.upload.single('evento_image'),  accValidation.newEventRules(), accValidation.checkNewEventRules, utilidades.handleErrors(cuentaController.registerNewEvent))
 
+// Crear el view para ver los eventos registrados
+router.get("/mis-eventos/:usuario_id", utilidades.checkLogin, utilidades.handleErrors(cuentaController.buildMyEventsView))
 
 module.exports = router

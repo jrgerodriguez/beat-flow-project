@@ -1,7 +1,7 @@
 const utilities = require(".");
-const { body, validationResult } = require("express-validator");
+const { body, check, validationResult } = require("express-validator");
 const validate = {};
-const accModel = require("../models/cuenta-model")
+const accModel = require("../models/cuenta-model");
 
 /*Se establencen las reglas para los datos para crear una nueva cuenta*/
 validate.registrationNewAccountRules = () => {
@@ -23,12 +23,12 @@ validate.registrationNewAccountRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail({ remove_dots: false }) 
+      .normalizeEmail({ remove_dots: false })
       .withMessage("Ingresa un correo electrónico válido")
       .custom(async (usuario_email) => {
-        const emailExiste = await accModel.checkExistingEmail(usuario_email)
-        if(emailExiste) {
-          throw new Error("Correo electrónico ya existe")
+        const emailExiste = await accModel.checkExistingEmail(usuario_email);
+        if (emailExiste) {
+          throw new Error("Correo electrónico ya existe");
         }
       }),
 
@@ -46,29 +46,28 @@ validate.registrationNewAccountRules = () => {
   ];
 };
 
-/*Esta funcion se encarga de verificar que las reglas se cumplan en los datos proporcionados*/
+/*Esta funcion se encarga de verificar que las reglas se cumplan para crear una nueva cuenta*/
 validate.checkRegistrationNewAccountRules = async (req, res, next) => {
-    const {usuario_nombre, usuario_apellido, usuario_email, usuario_password} = req.body
-    let errores = []
-    errores = validationResult(req)
-    if(!errores.isEmpty()) {
-        res.render("./cuenta/registrar", {
-            titulo: 'Registro',
-            usuario_nombre,
-            usuario_apellido,
-            usuario_email,
-            errores
-        })
-        return
-    }
-    next();
-}
+  const { usuario_nombre, usuario_apellido, usuario_email, usuario_password } =
+    req.body;
+  let errores = [];
+  errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/registrar", {
+      titulo: "Registro",
+      usuario_nombre,
+      usuario_apellido,
+      usuario_email,
+      errores,
+    });
+    return;
+  }
+  next();
+};
 
-
-/*Se establencen las reglas para los datos para hacer el login*/
+/*Se establecen las reglas para los datos para hacer el login*/
 validate.loginRules = () => {
   return [
-
     body("usuario_email")
       .trim()
       .isEmail()
@@ -89,24 +88,24 @@ validate.loginRules = () => {
   ];
 };
 
-/*Esta funcion se encarga de verificar que las reglas se cumplan en los datos proporcionados*/
+/*Esta funcion se encarga de verificar que las reglas se cumplan para hacer login*/
 validate.checkLoginRules = async (req, res, next) => {
-  const {usuario_email, usuario_password} = req.body
-  let errores = []
-  errores = validationResult(req)
-  if(!errores.isEmpty()) {
-      res.render("./cuenta/login", {
-          titulo: 'Iniciar Sesión',
-          usuario_email,
-          errores, 
-          messages: null
-      })
-      return
+  const { usuario_email, usuario_password } = req.body;
+  let errores = [];
+  errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/login", {
+      titulo: "Iniciar Sesión",
+      usuario_email,
+      errores,
+      messages: null,
+    });
+    return;
   }
   next();
-}
+};
 
-/*Se establencen las reglas para actualizar datos de la cuentra*/
+/*Se establecen las reglas para actualizar datos de la cuenta*/
 validate.editProfileRules = () => {
   return [
     body("usuario_nombre")
@@ -126,44 +125,155 @@ validate.editProfileRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail({ remove_dots: false }) 
+      .normalizeEmail({ remove_dots: false })
       .withMessage("Ingresa un correo electrónico válido")
-      .custom(async (usuario_email, {req}) => {
-
-        const cuentaOriginal = await accModel.getAccountById(req.body.usuario_id)
+      .custom(async (usuario_email, { req }) => {
+        const cuentaOriginal = await accModel.getAccountById(
+          req.body.usuario_id
+        );
 
         let emailOriginal;
 
         if (cuentaOriginal) {
-            emailOriginal = cuentaOriginal.usuario_email;
+          emailOriginal = cuentaOriginal.usuario_email;
         } else {
-            emailOriginal = null;
+          emailOriginal = null;
         }
 
-        if (usuario_email !== emailOriginal && await accModel.checkExistingEmail(usuario_email)) {
-          throw new Error("Correo electrónico ya existe")
+        if (
+          usuario_email !== emailOriginal &&
+          (await accModel.checkExistingEmail(usuario_email))
+        ) {
+          throw new Error("Correo electrónico ya existe");
         }
-
-      })
+      }),
   ];
 };
 
-/*Esta funcion se encarga de verificar que las reglas se cumplan en los datos proporcionados*/
+/*Esta funcion se encarga de verificar que las reglas se cumplan para actualizar los datos de la cuenta*/
 validate.checkeditProfileRules = async (req, res, next) => {
-  const {usuario_nombre, usuario_apellido, usuario_email, usuario_password} = req.body
-  let errores = []
-  errores = validationResult(req)
-  if(!errores.isEmpty()) {
-      res.render("./cuenta/editar-perfil", {
-          titulo: 'Registro',
-          usuario_nombre,
-          usuario_apellido,
-          usuario_email,
-          errores
-      })
-      return
+  const { usuario_nombre, usuario_apellido, usuario_email, usuario_password } =
+    req.body;
+  let errores = [];
+  errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/editar-perfil", {
+      titulo: "Registro",
+      usuario_nombre,
+      usuario_apellido,
+      usuario_email,
+      errores,
+    });
+    return;
   }
   next();
-}
+};
 
-module.exports = validate
+/* Se establecen las reglas para crear un nuevo evento */
+validate.newEventRules = () => {
+  return [
+    body("evento_nombre")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa el nombre del evento"),
+
+      body("evento_lugar")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa el lugar del evento"),
+
+      body("evento_ciudad")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa la ciudad"),
+
+      body("evento_fecha")
+      .notEmpty()
+      .withMessage("Ingresa la fecha del evento")
+      .custom((value) => {
+        const fecha = new Date(value);
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        if (fecha < hoy) {
+          throw new Error("La fecha no puede ser en el pasado");
+        }
+        return true;
+      }),
+
+      body("evento_hora")
+      .notEmpty()
+      .withMessage("Ingresa la hora del evento"),
+      
+      body("evento_descripcion")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa una descripción del evento"),
+
+      check("evento_image").custom((value, { req }) => {
+        console.log("Archivo recibido:", req.file); 
+        if (req.file) {
+          const mimeType = req.file.mimetype.split("/")[0];
+          if (mimeType !== "image") {
+            throw new Error("El archivo debe ser una imagen");
+          }
+          return true;
+        } else {
+          throw new Error("Sube un flyer del evento");
+        }
+      }),      
+
+      body("evento_tickets")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Ingresa un enlace hacia la compra de tickets")   
+  ];
+};
+
+/*Esta funcion se encarga de verificar que las reglas se cumplan para crear un nuevo evento*/
+validate.checkNewEventRules = async (req, res, next) => {
+  const {
+    evento_nombre,
+    evento_lugar,
+    evento_ciudad,
+    evento_fecha,
+    evento_hora,
+    evento_descripcion,
+    evento_tickets
+  } = req.body;
+  
+  const evento_image = req.file?.filename || "";
+  
+
+  let errores = []
+  errores = validationResult(req)
+
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/crear-evento", {
+      titulo: "Crear Evento",
+      evento_nombre, 
+      evento_lugar, 
+      evento_ciudad, 
+      evento_fecha, 
+      evento_hora, 
+      evento_descripcion, 
+      evento_image,
+      evento_tickets,
+      errores
+    });
+    return
+  }
+  next()
+};
+
+
+module.exports = validate;

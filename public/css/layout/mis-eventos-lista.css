@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap");
+/** Media Queries **/
+.contenedor-mis-eventos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0;
+}
+
+.max-width-500 {
+  max-width: 600px !important;
+  width: 100%;
+}
+
+.evento-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.evento-list-element {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 600px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 10px;
+}
+.evento-list-element:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.evento-list-element .evento-list-element__contenido {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+@media (min-width: 480px) {
+  .evento-list-element .evento-list-element__contenido {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+.evento-list-element img {
+  max-width: 75px;
+  height: auto;
+  margin-right: 15px;
+}
+.evento-list-element p {
+  flex: 1;
+  margin: 0;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+}
+
+.evento-list-element__contenido-botones {
+  display: flex;
+  gap: 10px;
+}
+
+/*# sourceMappingURL=mis-eventos-lista.css.map */

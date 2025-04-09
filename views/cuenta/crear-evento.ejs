@@ -26,32 +26,32 @@
 
             <label for="evento_nombre">Titulo</label>
             <div>
-                <input type="text" id="evento_nombre" name="evento_nombre" required>
+                <input type="text" id="evento_nombre" name="evento_nombre" required value="<%= evento_nombre %>"                >
             </div>
 
             <label for="evento_lugar">Lugar</label>
             <div>
-                <input type="text" id="evento_lugar" name="evento_lugar" required>
+                <input type="text" id="evento_lugar" name="evento_lugar" required value="<%= evento_lugar %>">
             </div>
 
             <label for="evento_ciudad">Ciudad</label>
             <div>
-                <input type="text" id="evento_ciudad" name="evento_ciudad" required>
+                <input type="text" id="evento_ciudad" name="evento_ciudad" required value="<%= evento_ciudad %>">
             </div>
 
             <label for="evento_fecha">Fecha</label>
             <div>
-            <input type="date" id="evento_fecha" name="evento_fecha" required>
+            <input type="date" id="evento_fecha" name="evento_fecha" required value="<%= evento_fecha %>">
             </div>
 
             <label for="evento_hora">Hora</label>
             <div>
-            <input type="time" id="evento_hora" name="evento_hora" required>
+            <input type="time" id="evento_hora" name="evento_hora" required value="<%= evento_hora %>">
             </div>
 
             <label for="evento_descripcion">Descripción</label>
             <div>
-                <textarea id="evento_descripcion" name="evento_descripcion" placeholder="Describe el evento aquí..."></textarea>
+                <textarea id="evento_descripcion" name="evento_descripcion" placeholder="Describe el evento aquí..."><%= evento_descripcion %></textarea>
             </div>
             
             <label>Flyer del Evento</label>
@@ -61,7 +61,7 @@
 
             <label for="evento_tickets">Link de Tickets</label>
             <div>
-                <input type="text" id="evento_tickets" name="evento_tickets" required>
+                <input type="text" id="evento_tickets" name="evento_tickets" required value="<%- evento_tickets %>">
             </div>
             
             <input type="hidden" name="usuario_id" value="<%= userData.usuario_id%>">
@@ -73,5 +73,18 @@
 
 </div>
 
-<script src="../js/index.js"></script>
+<script>
+    const closeErrorMessage = () => {
+  const closeBtnList = document.querySelectorAll(".closeBtn")
+  closeBtnList.forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.closest('li').style.display = 'none'
+    })
+  })
+  }
+
+document.addEventListener("DOMContentLoaded", () => {
+  closeErrorMessage();
+});
+</script>
     

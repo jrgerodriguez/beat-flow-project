@@ -1,8 +1,10 @@
 const { hash } = require("bcryptjs");
 const accModel = require("../models/cuenta-model")
+const proxModel = require("../models/proximos-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const utilities = require("../utilities/.")
 
 //Esta funcion renderiza el view para hacer login
 async function buildLoginView(req, res) {
@@ -157,6 +159,13 @@ async function processPasswordEdit(req, res) {
 async function createEventView(req, res) {
     res.render("./cuenta/crear-evento", {
         titulo: 'Crear Evento',
+        evento_nombre: '',
+        evento_lugar: '',
+        evento_ciudad: '',
+        evento_fecha: '',
+        evento_hora: '',
+        evento_descripcion: '',
+        evento_tickets: '',
         errores: null
     })
 }
@@ -184,4 +193,20 @@ async function registerNewEvent(req, res) {
     }
 }
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent}
+//Esta funcion es para ver el formulario para editar la informacion
+async function buildMyEventsView(req, res) {
+
+    const usuario_id = req.params.usuario_id;
+
+    const data = await accModel.getEventsById(usuario_id)
+
+    const eventos = await utilities.buildEventList(data)
+
+    res.render("./cuenta/mis-eventos", {
+        titulo: 'Mis Eventos',
+        eventos,
+        errores: null
+    })
+}
+
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent, buildMyEventsView}

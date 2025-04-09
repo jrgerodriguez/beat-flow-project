@@ -34,4 +34,7 @@ const closeErrorMessage = () => {
   })
   }
 
-closeErrorMessage();
+document.addEventListener("DOMContentLoaded", () => {
+  closeErrorMessage();
+});
+  

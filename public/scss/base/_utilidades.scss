@@ -78,3 +78,26 @@
     transform: translateX(100%)
   }
 }
+
+.boton-accion {
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.editar {
+  background-color: #006994;
+  color: #ffffff;
+
+  &:hover {
+    background-color: rgba(70, 130, 180);
+  }
+}
+
+.eliminar {
+  background-color: rgba(128, 128, 128, 0.3);
+
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+}

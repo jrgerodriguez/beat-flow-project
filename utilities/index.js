@@ -6,8 +6,6 @@ const Util = {};
 const multer = require('multer');
 const path = require('path');
 
-
-
 /* ***************************
  *  Obtiene todos los eventos registrados en la base de datos
  * ************************** */
@@ -134,5 +132,28 @@ const storage = multer.diskStorage({
 
 // Middleware para la carga de una sola imagen
 Util.upload = multer({ storage: storage });
+
+/* ***************************
+ *  Obtiene todos los eventos registrados de acuerdo al id del usuario
+ * ************************** */
+Util.buildEventList = async function (data) {
+  let list = "";
+  if (data) {  
+    data.forEach((row) => {
+      list += `
+      <div class="evento-list-element">
+        <img src="${row.evento_image}" alt="Flyer del evento">
+        <div class="evento-list-element__contenido">
+          <p>${row.evento_nombre}</p>
+          <div class="evento-list-element__contenido-botones">
+            <a href="" class="boton-accion editar">Editar</a>
+            <a href="" class="boton-accion eliminar">Eliminar</a>
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+  return list;
+};
 
 module.exports = Util;

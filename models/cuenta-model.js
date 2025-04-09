@@ -89,4 +89,15 @@ async function processNewEventRegister(evento_nombre, evento_lugar, evento_ciuda
   }
 }
 
-module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword, processNewEventRegister}
+//Esta funcion obtiene los eventos por numero de id del usuario
+async function getEventsById(usuario_id) {
+  try {
+    const result = await pool.query("SELECT * FROM public.evento WHERE usuario_id = $1", [usuario_id])
+    return result.rows
+  } catch (error) {
+    console.error("model error:", error.message)
+    throw error
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword, processNewEventRegister, getEventsById}
