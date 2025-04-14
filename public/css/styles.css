@@ -877,6 +877,8 @@ hr {
 
 .contenedor-formulario {
   margin: 25px 0;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .formulario {
@@ -992,6 +994,10 @@ svg {
 
 .margin-top {
   margin-top: 30px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
 }
 
 textarea {
