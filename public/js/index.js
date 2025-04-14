@@ -38,3 +38,4 @@ document.addEventListener("DOMContentLoaded", () => {
   closeErrorMessage();
 });
   
+console.log("Si funciona")

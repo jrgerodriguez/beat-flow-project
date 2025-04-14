@@ -144,10 +144,10 @@ Util.buildEventList = async function (data) {
       <div class="evento-list-element">
         <img src="${row.evento_image}" alt="Flyer del evento">
         <div class="evento-list-element__contenido">
-          <p>${row.evento_nombre}</p>
+          <p data-nombre="${row.evento_nombre}" class="eventoNombre">${row.evento_nombre}</p>
           <div class="evento-list-element__contenido-botones">
             <a href="" class="boton-accion editar">Editar</a>
-            <a href="" class="boton-accion eliminar">Eliminar</a>
+            <a evento-id="${row.evento_id}" usuario-id="${row.usuario_id}" class="boton-accion eliminar btnEliminar">Eliminar</a>
           </div>
         </div>
       </div>`;

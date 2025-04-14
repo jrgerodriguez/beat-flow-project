@@ -472,6 +472,45 @@ template {
   background-color: rgba(128, 128, 128, 0.5);
 }
 
+button {
+  border: none;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background-color: #fff;
+  padding: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
 /** Media Queries **/
 /** Media Queries **/
 .barra {
@@ -597,6 +636,8 @@ template {
   background-color: #005c99;
   padding: 35px 25px;
   margin: 25px -20px;
+  align-self: stretch;
+  flex: 0 1 auto;
 }
 .contenedor-nombre-evento .nombre-evento {
   margin: 0;
@@ -611,10 +652,12 @@ template {
   margin-bottom: 25px;
   justify-content: center;
   align-items: start;
+  flex: 2;
 }
 @media (min-width: 480px) {
   .detalles-grid {
     flex-direction: row;
+    align-items: center;
   }
 }
 .detalles-grid .detalles-grid-imagen-contenedor {
@@ -654,6 +697,8 @@ template {
   background-color: #005c99;
   padding: 35px 25px;
   margin: 25px -20px;
+  align-self: stretch;
+  flex: 0 1 auto;
 }
 .contenedor-nombre-evento .nombre-evento {
   margin: 0;
@@ -668,10 +713,12 @@ template {
   margin-bottom: 25px;
   justify-content: center;
   align-items: start;
+  flex: 2;
 }
 @media (min-width: 480px) {
   .detalles-grid {
     flex-direction: row;
+    align-items: center;
   }
 }
 .detalles-grid .detalles-grid-imagen-contenedor {
@@ -1016,7 +1063,7 @@ svg {
 }
 
 .max-width-500 {
-  max-width: 600px !important;
+  max-width: 700px !important;
   width: 100%;
 }
 
@@ -1033,18 +1080,17 @@ svg {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  max-width: 600px;
+  max-width: 700px;
   box-sizing: border-box;
   width: 100%;
   padding: 1rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   gap: 10px;
 }
 .evento-list-element:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 .evento-list-element .evento-list-element__contenido {
   display: flex;
@@ -1062,7 +1108,7 @@ svg {
   }
 }
 .evento-list-element img {
-  max-width: 75px;
+  max-width: 50px;
   height: auto;
   margin-right: 15px;
 }

@@ -23,7 +23,7 @@ router.get("/editar-perfil", utilidades.checkLogin, utilidades.handleErrors(cuen
 router.post("/editar-perfil", utilidades.checkLogin, accValidation.editProfileRules(), accValidation.checkeditProfileRules, utilidades.handleErrors(cuentaController.processProfileEdit))
 
 // Edita/Actualiza la informacion
-router.post("/editar-password", utilidades.checkLogin, utilidades.handleErrors(cuentaController.processPasswordEdit))
+router.post("/editar-password", utilidades.checkLogin, accValidation.editPasswordRules(), accValidation.checkEditPasswordRules, utilidades.handleErrors(cuentaController.processPasswordEdit))
 
 // Crear el view para el formulario de nuevos eventos
 router.get("/crear-evento", utilidades.checkLogin, utilidades.handleErrors(cuentaController.createEventView))

@@ -24,4 +24,19 @@ async function getEventoDetalles(evento_id) {
       }
 }
 
-module.exports = {getProximosEventos, getEventoDetalles}
+/* ***************************
+ * Eliminar un evento segun su Id
+ * ************************** */
+async function processDeleteEvent(evento_id) {
+  try {
+      const data = await pool.query(
+        `DELETE FROM public.evento WHERE evento_id = $1`,
+        [evento_id]
+      );
+      return data;
+    } catch (error) {
+      console.error("error: " + error);
+    }
+}
+
+module.exports = {getProximosEventos, getEventoDetalles, processDeleteEvent}

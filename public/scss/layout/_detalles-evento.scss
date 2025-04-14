@@ -5,6 +5,8 @@
   background-color: #005c99;
   padding: 35px 25px;
   margin: 25px -20px;
+  align-self: stretch;
+  flex: 0 1 auto;
 
   .nombre-evento {
     margin: 0;
@@ -20,9 +22,11 @@
   margin-bottom: 25px;
   justify-content: center;
   align-items: start;
+  flex: 2;
 
   @include telefono {
     flex-direction: row;
+    align-items: center;
   }
 
   .detalles-grid-imagen-contenedor {

@@ -13,14 +13,39 @@
     </ul>
 <% } %>
 
-<div class="contenedor-formulario contenedor-formularios-editar">
+<% if (messages) { %>
+    <div class="notice-container">
+      <%- messages() %>
+    </div>
+<% } %>
 
+
+<div class="contenedor-formulario contenedor-formularios-editar">
     <div class="contenedor-btn-volver max-width-500">
         <a href="/dashboard" class="btn-volver">Volver</a>
     </div>
 
     <div class="evento-list">
-        <%- eventos %>
-    </div>
-    
+
+        <% if(!eventos || eventos.trim() === "") {%>
+            <h2>Todavía no tienes eventos.</h2>
+            <a href="/cuenta/crear-evento" id="confirmarEliminar" class="boton-accion editar" user-id="">Crear Evento</a>
+        <% } else {%>  
+            <%- eventos %>
+        <% } %> 
+
+    </div> 
 </div>
+
+<!-- Confirmation Modal -->
+<div class="modal hidden">
+    <div class="modal-contenido">
+        <p>¿Estás seguro que quieres eliminar <span class="nombre-evento-eliminar"></span>?</p>
+        <div class="modal-botones">
+          <a href="" id="confirmarEliminar" class="boton-accion editar" user-id="">Sí, eliminar</a>
+          <button type="button" id="cancelar" class="boton-accion eliminar btnCancelar">Cancelar</button>
+        </div>
+    </div>  
+</div>
+
+<script src="/js/utilities.js"></script>

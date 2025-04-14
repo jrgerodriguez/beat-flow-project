@@ -275,5 +275,35 @@ validate.checkNewEventRules = async (req, res, next) => {
   next()
 };
 
+/*Se establecen las reglas para actualizar la contraseña*/
+validate.editPasswordRules = () => {
+  return [
+    body("usuario_password")
+      .trim()
+      .notEmpty()
+      .isStrongPassword({
+        minLength: 10,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Formato de contraseña incorrecto"),
+  ];
+};
+
+/*Esta funcion se encarga de verificar que las reglas se cumplan para actualizar la contraseña*/
+validate.checkEditPasswordRules = async (req, res, next) => {
+  let errores = [];
+  errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/editar-perfil", {
+      titulo: "Registro",
+      errores
+    });
+    return;
+  }
+  next();
+};
 
 module.exports = validate;

@@ -205,8 +205,11 @@ async function buildMyEventsView(req, res) {
     res.render("./cuenta/mis-eventos", {
         titulo: 'Mis Eventos',
         eventos,
-        errores: null
+        errores: null,
+        messages: null
     })
 }
+
+
 
 module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent, buildMyEventsView}
