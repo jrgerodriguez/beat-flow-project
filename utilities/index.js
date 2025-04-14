@@ -6,6 +6,7 @@ const Util = {};
 const multer = require('multer');
 const path = require('path');
 
+
 /* ***************************
  *  Obtiene todos los eventos registrados en la base de datos
  * ************************** */

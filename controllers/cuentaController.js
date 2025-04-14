@@ -5,6 +5,13 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const utilities = require("../utilities/.")
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 //Esta funcion renderiza el view para hacer login
 async function buildLoginView(req, res) {
@@ -174,7 +181,17 @@ async function createEventView(req, res) {
 async function registerNewEvent(req, res) {
     const {evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_tickets, usuario_id} = req.body
 
-    const evento_image = req.file? `/images/flyers/${req.file.filename}` : null;
+    let evento_image = null;
+
+    if(req.file) {
+        try {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {public_id: `evento_${Date.now()}`,});
+            evento_image = uploadResult.secure_url;
+        } catch (error) {
+            console.log("Error al subir la imagen a Cloudinary:", error);
+            return res.status(500).send("Error al subir la imagen.");
+        }
+    } 
 
     const data = await accModel.processNewEventRegister(evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id)
 

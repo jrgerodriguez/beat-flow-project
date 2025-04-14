@@ -1,3 +1,4 @@
+require("dotenv").config();
 const utilidades = require("../utilities")
 const proxModel = require("../models/proximos-model")
 const accModel = require("../models/cuenta-model")
@@ -5,6 +6,13 @@ const utilities = require("../utilities/.")
 const path = require("path")
 const fs = require("fs")
 const eventoController = {};
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 
 /* ***************************
@@ -24,18 +32,27 @@ eventoController.processEliminateEvent = async function (req, res) {
   const usuarioId = req.query.user
   const eventoId = req.query.event;
 
-  //Eliminar la imagen guardada
-  const data = await proxModel.getEventoDetalles(eventoId)
+  //Detalles e imagen del evento
+  const data = await proxModel.getEventoDetalles(eventoId);
   const imagePath = data.evento_image;
-  console.log(imagePath)
-  const fullPath = path.join(__dirname, '..', 'public', imagePath.replace(/^\/+/, '')); //Crea la ruta, (..) => sube un nivel
-  fs.unlink(fullPath, (err) => {
-    if (err) {
-      console.error('Error al eliminar la imagen:', err);
-    } else {
-      console.log('Imagen eliminada con éxito');
-    }
-  });
+
+ // Eliminar la imagen de Cloudinary
+ try {
+  // Extraer el public_id de la imagen
+  const publicId = imagePath.split('/').pop().split('.')[0];
+
+  // Eliminar la imagen de Cloudinary
+  const result = await cloudinary.uploader.destroy(publicId);
+  console.log('Resultado de eliminación de Cloudinary:', result);
+
+  if (result.result === 'ok') {
+    console.log('Imagen eliminada de Cloudinary con éxito');
+  } else {
+    console.error('Error al eliminar la imagen de Cloudinary', result);
+  }
+} catch (error) {
+  console.error('Error al eliminar la imagen de Cloudinary:', error);
+}
 
   const result = await proxModel.processDeleteEvent(eventoId)
 
