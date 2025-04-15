@@ -122,14 +122,7 @@ Util.checkLogin = (req, res, next) => {
  * Configuración de Multer para carga de imágenes
  **************************************** */
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => { //3 parametros: la solicitud, archivo y el callback
-    cb(null, 'public/images/flyers'); // Ruta de la imagen
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nombre para cada archivo, el nombre sera la fecha y hora y la extension
-  }
-});
+const storage = multer.memoryStorage();
 
 // Middleware para la carga de una sola imagen
 Util.upload = multer({ storage: storage });
