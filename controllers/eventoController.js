@@ -107,28 +107,42 @@ eventoController.processEditEvent = async function (req, res) {
   const data = await proxModel.getEventoById(eventoId)
 
   if (req.file) {
-    //Eliminar la imagen existente
-    const imagePath = data.evento_image
+    // Eliminar la imagen existente
+    const imagePath = data.evento_image;
     const publicId = imagePath.split('/').pop().split('.')[0];
     const result = await cloudinary.uploader.destroy(publicId);
-    if(result.result === 'ok') {
-      console.log("La imagen se elimino de Cloudinary")
+    if (result.result === 'ok') {
+        console.log("La imagen se eliminó de Cloudinary");
     } else {
-      console.log("La imagen NO se pudo eliminar de Cloudinary")
+        console.log("La imagen NO se pudo eliminar de Cloudinary");
     }
 
-    //Asignar a evento_image la imagen nueva
+    // Subir la nueva imagen
     try {
-      const uploadResult = await cloudinary.uploader.upload(req.file.path, {public_id: `evento_${Date.now()}`,});
-      evento_image = uploadResult.secure_url;
+        await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { public_id: `evento_${Date.now()}` },
+                (error, result) => {
+                    if (error) {
+                        console.error("Error al subir nueva imagen:", error);
+                        reject(error);
+                    } else {
+                        evento_image = result.secure_url;
+                        resolve(result);
+                    }
+                }
+            );
+            stream.end(req.file.buffer); // <- usamos buffer en vez de path
+        });
     } catch (error) {
-      console.error("Error al subir nueva imagen")
+        console.error("Error al subir nueva imagen");
     }
-    
-  } else {
-    //Asignar a evento_image la imagen existente
-    evento_image = data.evento_image
-  }
+
+} else {
+    // Asignar a evento_image la imagen existente
+    evento_image = data.evento_image;
+}
+
 
   const result = await proxModel.updateEvent(evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id, evento_id)
 

@@ -183,15 +183,28 @@ async function registerNewEvent(req, res) {
 
     let evento_image = null;
 
-    if(req.file) {
+    if (req.file) {
         try {
-            const uploadResult = await cloudinary.uploader.upload(req.file.path, {public_id: `evento_${Date.now()}`,});
-            evento_image = uploadResult.secure_url;
+            await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { public_id: `evento_${Date.now()}` },
+                    (error, result) => {
+                        if (error) {
+                            console.log("Error al subir la imagen a Cloudinary:", error);
+                            reject(error);
+                        } else {
+                            evento_image = result.secure_url;
+                            resolve(result);
+                        }
+                    }
+                );
+                stream.end(req.file.buffer); // <-- aquí usás el buffer en vez del path
+            });
         } catch (error) {
-            console.log("Error al subir la imagen a Cloudinary:", error);
             return res.status(500).send("Error al subir la imagen.");
         }
-    } 
+    }
+    
 
     const data = await accModel.processNewEventRegister(evento_nombre, evento_lugar, evento_ciudad, evento_fecha, evento_hora, evento_descripcion, evento_image, evento_tickets, usuario_id)
 
