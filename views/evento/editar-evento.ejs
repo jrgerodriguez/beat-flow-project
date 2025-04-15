@@ -17,12 +17,12 @@
 <div class="contenedor-formulario contenedor-formularios-editar margin-bottom">
 
     <div class="contenedor-btn-volver">
-        <a href="/dashboard" class="btn-volver">Volver</a>
+        <a href="/cuenta/mis-eventos/<%= usuario_id%>" class="btn-volver">Volver</a>
     </div>
     
     <div class="formulario">
-        <h2>Crear Evento</h2>
-        <form class="" id="loginForm" action="/cuenta/crear-evento" method="post" enctype="multipart/form-data">
+        <h2>Editar <%= evento_nombre %></h2>
+        <form class="" id="loginForm" action="/evento/edit-evento" method="post" enctype="multipart/form-data">
 
             <label for="evento_nombre">Titulo</label>
             <div>
@@ -56,7 +56,7 @@
             
             <label>Flyer del Evento</label>
             <div>
-            <input type="file" id="evento_image" name="evento_image" accept="image/*" required>
+            <input type="file" id="evento_image" name="evento_image" accept="image/*">
             </div>
 
             <label for="evento_tickets">Link de Tickets</label>
@@ -65,8 +65,9 @@
             </div>
             
             <input type="hidden" name="usuario_id" value="<%= userData.usuario_id%>">
+            <input type="hidden" name="evento_id" value="<%= evento_id %>">
 
-            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Crear Evento</button>
+            <button href="#" class="boton-gris-sin-border iniciar-sesion a" type="submit">Editar Evento</button>
       
         </form>
     </div>
