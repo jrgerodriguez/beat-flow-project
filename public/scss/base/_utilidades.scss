@@ -130,6 +130,19 @@ button {
   gap: 20px;
   border-radius: 8px;
   text-align: center;
+  animation: slideDown 0.3s ease-in-out, 4s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50%)
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px)
+  }
 }
 
 .modal-botones {
