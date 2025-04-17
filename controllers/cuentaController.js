@@ -44,8 +44,15 @@ async function registerAccount(req, res) {
     const registroExitoso = await accModel.registrarCuenta(usuario_nombre, usuario_apellido, usuario_email, hashedPassword)
 
     if(registroExitoso) {
-    req.flash("notice", 'Registro exitoso, bienvenido/a')
-    res.status(201).render("./cuenta/login", {titulo: 'Iniciar Sesión', errores:null})
+        const userData = await accModel.getUserByEmail(usuario_email)
+        delete userData.usuario_password
+        const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+        if(process.env.NODE_ENV === 'development') {
+            res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+        } else {
+            res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        }
+        return res.redirect("/dashboard")
     } else {
         req.flash("warning", "Lo sentimos, el registro falló.");
         res.status(501).render("./cuenta/registrar", {titulo: 'Registro', errores:null});
