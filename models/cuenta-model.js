@@ -44,7 +44,7 @@ async function getUserByEmail(usuario_email) {
 async function processEdit(usuario_nombre, usuario_apellido, usuario_email, usuario_id) {
   try {
     const result = await pool.query(
-      "UPDATE public.usuario SET usuario_nombre = $1, usuario_apellido = $2, usuario_email = $3 WHERE usuario_id = $4 RETURNING *",
+      "UPDATE public.usuario SET usuario_nombre = $1, usuario_apellido = $2, usuario_email = $3 WHERE usuario_id = $4 RETURNING *", //Esto devuelve todo el objeto hasta la contraseña, hay que borrarla al actualizar el token
       [usuario_nombre, usuario_apellido, usuario_email, usuario_id]
     )
     return result.rows[0]
@@ -70,7 +70,7 @@ async function getAccountById(usuario_id) {
 async function updatePassword(usuario_password, usuario_id) {
   try {
     const result = await pool.query(
-      "UPDATE public.usuario SET usuario_password = $1 WHERE usuario_id = $2 RETURNING *",
+      "UPDATE public.usuario SET usuario_password = $1 WHERE usuario_id = $2 RETURNING *", 
       [usuario_password, usuario_id])
     return result.rows[0]
   } catch (error) {
@@ -100,4 +100,17 @@ async function getEventsById(usuario_id) {
   }
 }
 
-module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword, processNewEventRegister, getEventsById}
+//Esta funcion registra la nueva contraseña
+async function setNewPassword(email, password) {
+  try {
+    const result = await pool.query(
+      "UPDATE public.usuario SET usuario_password = $1 WHERE usuario_email = $2", [password, email]
+    )
+    return result.rows
+  } catch (error) {
+    console.error("model error:", error.message)
+    throw error
+  }
+}
+
+module.exports = {registrarCuenta, checkExistingEmail, getUserByEmail, processEdit, getAccountById, updatePassword, processNewEventRegister, getEventsById, setNewPassword}

@@ -705,6 +705,10 @@ button {
   margin-bottom: 7px;
 }
 
+.casilla-descripcion {
+  white-space: pre-line;
+}
+
 /** Media Queries **/
 .contenedor-nombre-evento {
   background-color: #005c99;
@@ -764,6 +768,10 @@ button {
 }
 .detalles-grid .detalles-grid-informacion .casilla-informacion .detalle-titulo {
   margin-bottom: 7px;
+}
+
+.casilla-descripcion {
+  white-space: pre-line;
 }
 
 .contenedor-error {

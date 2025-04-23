@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const utilities = require("../utilities/.")
 const cloudinary = require('cloudinary').v2;
+const nodemailer = require('nodemailer');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -247,6 +248,118 @@ async function buildMyEventsView(req, res) {
     })
 }
 
+//Esta funcion envia el email para restablecer la contraseña
+async function buildForgotPasswordView(req, res) {
+    res.render("./cuenta/olvide-password", {titulo: 'Recuperar Contraseña', messages: null, errores: null})
+}
 
+//Esta funcio envia el correo de recuperar contraseña en caso que el email exista
+async function sendForgotPasswordEmail(req, res) {
+    const {usuario_email} = req.body
 
-module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent, buildMyEventsView}
+    const emailExists = await accModel.checkExistingEmail(usuario_email)
+
+    if(emailExists) {
+        
+        const resetToken = jwt.sign(
+            { email: usuario_email }, //Payload
+            process.env.JWT_RESET_SECRET, //Secret
+            { expiresIn: '15m' } 
+        )
+
+        const resetLink = `https://beat-flow-project.onrender.com/cuenta/reset-password?token=${resetToken}`
+
+        //Crear transporte
+        const transporter = nodemailer.createTransport({ 
+            service: 'gmail',
+            auth: {
+              user: process.env.MAIL_USER,
+              pass: process.env.MAIL_PASS
+            }
+        })
+
+        //Mail Options
+        const mailOptions = {
+            from: `"BeatFlow" <${process.env.MAIL_USER}>`, 
+            to: usuario_email,
+            subject: 'Recupera tu contraseña',
+            html: `
+              <p>Has solicitado recuperar tu contraseña de tu cuenta de BeatFlow.</p>
+              <p>Haz clic en el siguiente enlace para establecer una nueva contraseña:</p>
+              <a href="${resetLink}">${resetLink}</a>
+              <p>Este enlace expira en 15 minutos.</p>
+            `
+        }
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.error(error)
+              return res.send('Error al enviar el correo.')
+            }
+          
+            req.flash("notice", "Se ha enviado un enlace a tu correo.")
+            res.render('./cuenta/olvide-password', {
+              titulo: 'Restablecer Contraseña',
+              errores: null,
+            })
+          })
+
+    } else {
+        req.flash("notice", "Este correo no existe, registra una cuenta.")
+        res.render("./cuenta/olvide-password", {titulo: 'Restablecer Contraseña', errores: null})
+    }
+}
+
+//Esta funcion redirige a establecer una nueva contraseña
+async function buildNewPasswordView(req, res) {
+
+    const {token} = req.query
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET)
+        const email = decoded.email
+
+        res.render("./cuenta/reset-password", {
+            titulo: 'Nueva Contraseña',
+            errores: null,
+            messages: null,
+            token,
+        }) 
+    } catch (error) {
+        req.flash("notice", "El enlace ha expirado o no es válido.")
+        res.render("./cuenta/login", {titulo: 'Iniciar Sesión', errores: null})
+    }
+}
+
+async function processRegisterNewPassword(req, res) {
+    const {token, usuario_password} = req.body
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET)
+        const email = decoded.email
+        
+        hashedPassword = await bcrypt.hashSync(usuario_password, 10)
+
+        const setNewPassword = await accModel.setNewPassword(email, hashedPassword)
+
+        if (setNewPassword) {
+            req.flash("notice", "Nueva Contraseña Registrada.")
+            res.render("./cuenta/login", {
+                titulo: 'Iniciar Sesión', 
+                errores: null
+            }) 
+        } else {
+            req.flash("notice", "No se pudo registrar la nueva contraseña.")
+            res.render("./cuenta/reset-password", {
+                titulo: 'Nueva Contraseña',
+                errores: null,
+                token,
+            })
+        }
+    } catch (error) {
+        req.flash("notice", "Ocurrió un error al procesar tu solicitud. Intenta nuevamente.")
+        res.render("./cuenta/login", {titulo: 'Iniciar Sesión', errores: null})
+    }
+}
+
+module.exports = {buildLoginView, buildRegisterView, registerAccount, processLogin, buildEditProfileInfoView, processProfileEdit, processPasswordEdit, createEventView, registerNewEvent, buildMyEventsView, buildForgotPasswordView, sendForgotPasswordEmail, buildNewPasswordView, processRegisterNewPassword}

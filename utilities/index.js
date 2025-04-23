@@ -53,7 +53,7 @@ Util.buildDetallesPorEvento = async function (data) {
                 </div>
 
                 <div class="casilla-informacion">
-                <p>${data.evento_descripcion}</p>
+                <p class="casilla-descripcion">${data.evento_descripcion}</p>
                 </div>
 
                 <a href="${data.evento_tickets}" class="boton-gris-sin-border iniciar-sesion" target="blank">Tickets</a>

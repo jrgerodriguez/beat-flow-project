@@ -23,7 +23,6 @@ validate.registrationNewAccountRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail({ remove_dots: false })
       .withMessage("Ingresa un correo electrónico válido")
       .custom(async (usuario_email) => {
         const emailExiste = await accModel.checkExistingEmail(usuario_email);
@@ -71,7 +70,6 @@ validate.loginRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail()
       .withMessage("Ingresa un correo electrónico válido"),
 
     body("usuario_password")
@@ -125,7 +123,6 @@ validate.editProfileRules = () => {
     body("usuario_email")
       .trim()
       .isEmail()
-      .normalizeEmail({ remove_dots: false })
       .withMessage("Ingresa un correo electrónico válido")
       .custom(async (usuario_email, { req }) => {
         const cuentaOriginal = await accModel.getAccountById(
@@ -301,6 +298,23 @@ validate.checkEditPasswordRules = async (req, res, next) => {
       titulo: "Registro",
       errores
     });
+    return;
+  }
+  next();
+};
+
+/*Esta funcion se encarga de verificar que las reglas se cumplan para crear una nueva contraseña*/
+validate.checkNewPasswordRules = async (req, res, next) => {
+  const {token} = req.body
+  let errores = [];
+  errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    res.render("./cuenta/reset-password", {
+      titulo: 'Nueva Contraseña',
+      errores,
+      token,
+      messages: null,
+  })
     return;
   }
   next();

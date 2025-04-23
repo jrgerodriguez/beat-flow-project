@@ -34,4 +34,16 @@ router.post("/crear-evento", utilidades.checkLogin, utilidades.upload.single('ev
 // Crear el view para ver los eventos registrados
 router.get("/mis-eventos/:usuario_id", utilidades.checkLogin, utilidades.handleErrors(cuentaController.buildMyEventsView))
 
+// View para recuperar contraseña
+router.get("/olvide-password", utilidades.handleErrors(cuentaController.buildForgotPasswordView))
+
+// Manda el correo de recuperacion de contraseña
+router.post("/olvide-password", utilidades.handleErrors(cuentaController.sendForgotPasswordEmail))
+
+// Ruta para el view donde se ingresara la nueva contraseña
+router.get("/reset-password", utilidades.handleErrors(cuentaController.buildNewPasswordView))
+
+// Ruta para restablecer la nueva contraseña dentro de la base de datos
+router.post("/reset-password", accValidation.editPasswordRules(), accValidation.checkNewPasswordRules, utilidades.handleErrors(cuentaController.processRegisterNewPassword))
+
 module.exports = router
