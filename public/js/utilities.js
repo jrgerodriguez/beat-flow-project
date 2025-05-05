@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventoAEliminar = document.querySelector(".nombre-evento-eliminar")
     const btnConfirmarEliminar = document.querySelector("#confirmarEliminar")
 
+    urlEliminar = "" //Aqui se guarda la url para eliminar evento y asi evitar que se muestre a los usuarios
+
 btnesEliminar.forEach((boton) => {
         boton.addEventListener("click", (e) => {
             e.preventDefault()
@@ -19,13 +21,20 @@ btnesEliminar.forEach((boton) => {
             const eventoId = boton.getAttribute("evento-id");
             const usuarioId = boton.getAttribute("usuario-id");
             
-            btnConfirmarEliminar.href = `/evento/eliminar-evento?user=${usuarioId}&event=${eventoId}`
-        })
-    
-        btnCancelar.addEventListener("click", (e) => {
-            e.preventDefault()
-            modal.classList.add("hidden")
-        })
+            urlEliminar = `/evento/eliminar-evento?user=${usuarioId}&event=${eventoId}`
+        });        
+    });
+
+    btnConfirmarEliminar.addEventListener("click", (e) => {
+        e.preventDefault()
+        if (urlEliminar) {
+            window.location.href = urlEliminar;
+        }
+    })
+
+    btnCancelar.addEventListener("click", (e) => {
+        e.preventDefault()
+        modal.classList.add("hidden")
     })
 
     modal.addEventListener("click", (e) => {
