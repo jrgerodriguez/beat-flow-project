@@ -65,7 +65,7 @@ app.use(static)
 
 app.use("/evento", eventoRoute)
 app.use("/cuenta", accountRoute)
-app.get('/', baseController.buildProximos);
+app.get('/', utilidades.handleErrors(baseController.buildProximos));
 
 // Ver el dashboard
 app.use("/dashboard", utilidades.checkLogin, dashboardRoute)
