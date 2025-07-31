@@ -7,8 +7,13 @@ const baseController = {}
  *  Construye el view en Index y muestra un grid de todos los eventos
  * ************************** */
 baseController.buildProximos = async function(req, res) {
-    const proximosEventos = await utilidades.getProximos()
-    res.render("index", {titulo: "Beatflow", proximosEventos})
+    try {
+        const proximosEventos = await utilidades.getProximos()
+        res.render("index", { titulo: "Beatflow", proximosEventos })
+    } catch (error) {
+        console.error("Error al obtener eventos:", error)
+        res.render("index", { titulo: "Beatflow", proximosEventos: [] }) // Muestra la página sin eventos
+    }
 }
 
 module.exports = baseController
